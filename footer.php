@@ -18,8 +18,6 @@
       ]);
       ?>
     </nav>
-
-    <p>&copy; <?php echo date('Y'); ?> <?php bloginfo('name'); ?> — Tous droits réservés.</p>
   </div>
 </footer>
 

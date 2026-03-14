@@ -116,6 +116,7 @@ a {
     width: 100%;
     justify-content: center;
     align-items: center;
+    padding-top: 30px;
 }
 .section-filter {
     justify-content: space-around;
@@ -530,13 +531,29 @@ flex-direction:column;
     justify-content: space-between;
 }
 
+/* FOOTER */
+.site-footer {
+    border-top:3px solid black;
+}
+.menu-footer-1 {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
 
+}
 
 /* desktop */
 @media(min-width:768px) {
     .single-navigation {
         display: flex;
         flex-direction: column;
+    }
+    .menu-footer-1 {
+        flex-direction: row;
     }
     .container-contact {
         width: 50%;
