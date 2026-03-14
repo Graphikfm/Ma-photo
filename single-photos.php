@@ -13,11 +13,11 @@
   // On recup les post precedant ou suivant au post actuel et dans une meme catégorie -> true, avec la fonction native cpt wp "get_previous_post(true,rien,nom taxonomie)"
   $prev_post = get_previous_post(true, '', 'photo_categorie');
   $next_post = get_next_post(true, '', 'photo_categorie');
-    var_dump($prev_post);
+    // var_dump($prev_post);
     // On recupe l'url de l'image à la une liée au post (suivant ou precedent)
   $prev_thumb = $prev_post ? get_the_post_thumbnail_url($prev_post, 'medium') : '';
-  var_dump($prev_thumb);
-  $next_thumb = $next_post ? get_the_post_thumbnail_url($next_post->ID, 'medium') : '';
+//   var_dump($prev_thumb);
+  $next_thumb = $next_post ? get_the_post_thumbnail_url($next_post, 'medium') : '';
 
 ?>
 
@@ -91,38 +91,36 @@
 
             <div class="single-navigation" style="">
 
-               <div>
-                <!--    On recupere grace à la fonction native cpt wp "previous_post_link()" le lien vers (post precedent ou post suivant) -->
-                <!--    On crée un dataset thumb avec comme valeur l'url de l'image suivante ou précedente -->
-
-    <?php previous_post_link(
-        '%link',
-        '<span class="nav-arrow nav-prev" data-thumb="' . esc_url($prev_thumb) . '">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M15 18l-6-6 6-6"/>
-            </svg>
-        </span>',
-        true,
-        '',
-        'photo_categorie'
-    ); ?>
-</div>
-<img data-src id="miniature" src="" alt="">
-
-<div>
-    <?php next_post_link(
-        '%link',
-        '<span class="nav-arrow nav-next"  data-thumb="' . esc_url($next_thumb) . '">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M9 6l6 6-6 6"/>
-            </svg>
-        </span>',
-        true,
-        '',
-        'photo_categorie'
-    ); ?>
-</div>
-
+                
+                    <!--    On recupere grace à la fonction native cpt wp "previous_post_link()" le lien vers (post precedent ou post suivant) -->
+                    <!--    On crée un dataset thumb avec comme valeur l'url de l'image suivante ou précedente -->
+                    <div class="container-miniature">
+                        <img data-src id="miniature" src="" alt="">
+                    </div>
+                    <div class="arrows-container">
+                        <div>
+                        <?php previous_post_link(
+                            '%link',
+                            '<span class="nav-arrow nav-prev" data-thumb="' . esc_url($prev_thumb) . '">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-left"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M5 12l4 4" /><path d="M5 12l4 -4" /></svg>
+                            </span>',
+                            true,
+                            '',
+                            'photo_categorie'
+                        ); ?>
+                    </div>
+                    <div>
+                        <?php next_post_link(
+                            '%link',
+                            '<span class="nav-arrow nav-next"  data-thumb="' . esc_url($next_thumb) . '">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M15 16l4 -4" /><path d="M15 8l4 4" /></svg>
+                            </span>',
+                            true,
+                            '',
+                            'photo_categorie'
+                        ); ?>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -161,7 +159,7 @@ if ($cats) {
         while ($related_query->have_posts()) :
             $related_query->the_post(); ?>
 
-            <div style="width:200px;">
+            <div class="container-related-img">
                 <a href="<?php the_permalink(); ?>">
                     <?php the_post_thumbnail('medium'); ?>
                 </a>
@@ -189,16 +187,19 @@ document.addEventListener("DOMContentLoaded", function() {
     const btnPrev = document.querySelector('.nav-prev');
     const miniature = document.getElementById('miniature');
 
+    miniature.style.opacity = "0";
+
     if (btnNext) {
         btnNext.addEventListener('mouseover', function() {
             const thumb = this.dataset.thumb;
             if (thumb) {
                 miniature.src = thumb;
+                miniature.style.opacity = "1";
             }
         });
 
         btnNext.addEventListener('mouseleave', function() {
-            miniature.src = "";
+            miniature.style.opacity = "0";
         });
     }
 
@@ -207,11 +208,12 @@ document.addEventListener("DOMContentLoaded", function() {
             const thumb = this.dataset.thumb;
             if (thumb) {
                 miniature.src = thumb;
+                miniature.style.opacity = "1";
             }
         });
 
         btnPrev.addEventListener('mouseleave', function() {
-            miniature.src = "";
+            miniature.style.opacity = "0";
         });
     }
 
