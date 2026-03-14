@@ -21,75 +21,75 @@
 
 ?>
 
-<section class="single-photo" style="width: 100%; display:flex; justify-content:center;">
+<section class="single-photo">
     
-<div class="container_blocs flex-column" style="width: 80%; display:flex; flex-direction:column;">
+<div class="container_blocs flex-column">
 
     <!-- BLOC 1 -->
-    <div class="bloc1" style="display:flex; width:100%; justify-content:center; align-items:flex-end; gap:30px;">
+    <div class="bloc1">
         
         <!-- INFOS -->
-        <div style="display:flex; flex-direction:column; width:50%; text-align:left;">
+        <div class="container_infos">
             
-            <h1 style="text-transform: uppercase; font-style: italic; font-size: 50px;">
+            <h1 style="">
                 <?php the_title(); ?>   
             </h1>
 
             <ul>
-                <li style="list-style:none; text-transform: uppercase; margin-bottom:10px;">
+                <li>
                     REFERENCE : <?php echo esc_html($reference); ?>
                 </li>
 
                 <?php if ($cats) : ?>
-                <li style="list-style:none; text-transform: uppercase; margin-bottom:10px;">
+                <li>
                     CATEGORIE : <?php echo esc_html($cats[0]->name); ?>
                 </li>
                 <?php endif; ?>
 
                 <?php if ($photoFormat) : ?>
-                <li style="list-style:none; text-transform: uppercase; margin-bottom:10px;">
+                <li>
                     FORMAT : <?php echo esc_html($photoFormat[0]->name); ?>
                 </li>
                 <?php endif; ?>
 
-                <li style="list-style:none; text-transform: uppercase; margin-bottom:10px;">
+                <li>
                     TYPE : <?php echo esc_html($photoType); ?>
                 </li>
 
-                <li style="list-style:none; text-transform: uppercase; margin-bottom:10px;">
+                <li>
                     ANNEE : <?php echo esc_html($year); ?>
                 </li>
             </ul>
 
-            <span style="width:100%; border:1px solid black;"></span>
+            <span></span>
 
         </div>
 
         <!-- IMAGE PRINCIPALE -->
-        <img style="width:50%;" src="<?php echo esc_url($image_url); ?>" alt="">
+        <img src="<?php echo esc_url($image_url); ?>" alt="">
 
     </div>
 
     <!-- BLOC 2 -->
-    <div class="bloc2" style="display:flex; justify-content:space-between; width:100%; gap:30px;">
+    <div class="bloc2" style="">
 
         <!-- CONTACT -->
-        <div style="display:flex; width:50%; justify-content:space-between; padding:10px 0; align-items:center;">
+        <div class="container-contact">
             
-            <div style="width:50%;">
+            <div style="">
                 <p style="margin:0;">Cette photo vous intéresse ?</p>
             </div>
 
-            <div data-ref="<?php echo esc_attr($reference); ?>" class="open-contact" style="width:50%; padding:10px; text-align:center; background:#d8d8d8; border-radius:5px;">
+            <div data-ref="<?php echo esc_attr($reference); ?>" class="open-contact">
                 Contact
             </div>
 
         </div>
 
         <!-- NAVIGATION PREV / NEXT -->
-        <div style="width:50%; margin-top:5px; display:flex; justify-content:flex-end; align-items:center;">
+        <div class="container-mini-nav">
 
-            <div class="single-navigation" style="display:flex; gap:40px; width:60%; justify-content:space-between;">
+            <div class="single-navigation" style="">
 
                <div>
                 <!--    On recupere grace à la fonction native cpt wp "previous_post_link()" le lien vers (post precedent ou post suivant) -->
@@ -129,14 +129,14 @@
 
     </div>
 
-    <span style="width:100%; border:1px solid black; margin-top:20px;"></span>
+    <span class="bottom-span"></span>
 
     <!-- VOUS AIMEREZ AUSSI -->
-    <div class="bloc3" style="width:100%; display:flex; flex-direction:column;">
+    <div class="bloc3">
         <p>Vous aimerez aussi</p>
     </div>
 
-    <div class="bloc4" style="display:flex; gap:20px; width:80%;">
+    <div class="bloc4">
 
 <?php
 if ($cats) {

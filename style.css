@@ -43,6 +43,14 @@ margin-bottom: 10px;
 text-transform: uppercase;
 }
 
+@media(min-width:680px) {
+
+    .burger-btn {
+    display: none;
+    }
+}
+
+
 
 
 
@@ -234,6 +242,9 @@ height:300px;
 background-size:cover;
 background-position:center;
 background-repeat:no-repeat;
+display: flex;
+justify-content: center;
+align-items: center;
 }
 
 @media(min-width:768px){
@@ -356,6 +367,107 @@ height:600px;
    
     cursor: pointer;
 }
+
+/* Single post*/
+
+.single-photo {
+    width: 100%; 
+    display:flex; 
+    justify-content:center;
+}
+
+.container_blocs {
+width: 80%;
+display:flex;
+flex-direction:column;
+}
+.flex-column {
+
+}
+.bloc1 {
+    display:flex;
+    width:100%;
+    justify-content:center;
+    align-items:flex-end;
+    gap:30px;
+}
+.container_infos {
+    display:flex;
+    flex-direction:column; 
+    width:50%;
+    text-align:left;
+}
+.container_infos h1 {
+    text-transform: uppercase;
+    font-style: italic;
+    font-size: 50px;
+}
+.container_infos ul li {
+    list-style:none;
+    text-transform: uppercase;
+    margin-bottom:10px;
+}
+.container_infos span {
+    width:100%;
+    border:1px solid black;
+}
+.bloc1 img {
+    width:50%;
+}
+.bloc2 {
+    display:flex;
+    justify-content:space-between;
+    width:100%;
+    gap:30px;
+}
+.container-contact {
+    display:flex;
+    width:50%;
+    justify-content:space-between;
+    padding:10px 0;
+    align-items:center;
+}
+.container-contact .div-contact {
+    width: 50%;
+}
+.container-contact div p {
+    margin:0;
+}
+.open-contact {
+    width:50%;
+    padding:10px;
+    text-align:center;
+    background:#d8d8d8;
+    border-radius:5px;
+}
+.container-mini-nav {
+  width:50%;
+  margin-top:5px;
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+}
+.single-navigation {
+    display:flex;
+    gap:40px; width:60%;
+    justify-content:space-between;
+}
+.container_blocs .bottom-span {
+    width:100%;
+    border:1px solid black;
+    margin-top:20px;
+}
+.bloc3 {
+    width:100%;
+    display:flex;
+    flex-direction:column;
+}
+.bloc4 {
+    display:flex;
+    gap:20px;
+    width:80%;
+}
+
 
 /* Amélioration desktop */
 @media (min-width: 768px) {
