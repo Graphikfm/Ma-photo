@@ -1,7 +1,11 @@
 <?php get_header(); ?>
 
 <main class="site-main">
-  <div class="hero-image"></div>
+  <div class="hero-image">
+    <?php
+    include 'hero.php';
+     ?>
+  </div>
 </main>
 
 <section class="section-media">
@@ -9,7 +13,7 @@
   <!-- FILTRES -->
   <section class="section-filter">
     <form method="get" class="filter_left">
-
+      <div class="container-filtres">
       <!-- CATEGORIES -->
       <select name="categorie" onchange="this.form.submit()">
         <option value="">Catégories</option>
@@ -41,7 +45,20 @@
           </option>
         <?php endforeach; ?>
       </select>
+    </div>
+    <!-- TRI DATE -->
+      <select class="select-tri" name="order" onchange="this.form.submit()">
+        <option value="">Trier par</option>
 
+        <option value="DESC" <?= selected($_GET['order'] ?? '', 'DESC'); ?>>
+          Plus récentes
+        </option>
+
+        <option value="ASC" <?= selected($_GET['order'] ?? '', 'ASC'); ?>>
+          Plus anciennes
+        </option>
+
+      </select>
     </form>
   </section>
 
@@ -54,25 +71,33 @@ $args = [
   'posts_per_page' => 8,
   'tax_query' => []
 ];
-
+// filtre cat
 if (!empty($_GET['categorie'])) {
   $args['tax_query'][] = [
     'taxonomy' => 'photo_categorie',
     'field' => 'slug',
-    'terms' => sanitize_text_field($_GET['categorie'])
+    'terms' => $_GET['categorie']
   ];
 }
-
+// filtre format
 if (!empty($_GET['format'])) {
   $args['tax_query'][] = [
     'taxonomy' => 'photo_format',
     'field' => 'slug',
-    'terms' => sanitize_text_field($_GET['format'])
+    'terms' => $_GET['format']
   ];
 }
 
 if (count($args['tax_query']) > 1) {
   $args['tax_query']['relation'] = 'AND';
+}
+
+// trier par date
+if (!empty($_GET['order'])) {
+
+  $args['orderby'] = 'date';
+  $args['order'] = $_GET['order'];
+
 }
 
 $query = new WP_Query($args);
@@ -237,7 +262,7 @@ if (loadMoreBtn) {
         return;
       } else { //sinon on ajoute les données avant fin de la section html
          document.querySelector('.section-display-media').insertAdjacentHTML('beforeend', data);
-      this.dataset.offset = offset + 4; // 8+4
+      this.dataset.offset = offset + 8; // 8+8
       }
       
       

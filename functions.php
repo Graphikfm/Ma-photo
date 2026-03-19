@@ -149,6 +149,15 @@ function maphoto_enqueue_scripts() {
         null,
         true // footer
     );
+
+    $path2 = '/mobile-nav.js';
+    wp_enqueue_script(
+        'maphoto-mobile-nav', // inventé ici ?
+        get_stylesheet_directory_uri() . $path2,
+        [],
+        null,
+        true
+    );
 }
 add_action('wp_enqueue_scripts', 'maphoto_enqueue_scripts');
 
