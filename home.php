@@ -311,6 +311,7 @@ if (loadMoreBtn) {
 
 
 document.addEventListener('DOMContentLoaded', () => {
+  const initialTexts = new Map();
 
     const dropdowns = document.querySelectorAll('.dropdown, .dropdown-right');
     const form = document.getElementById('filter-form');
@@ -319,7 +320,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const btn = dropdown.querySelector('.dropdown-btn');
         const menu = dropdown.querySelector('.dropdown-menu');
         const input = dropdown.querySelector('input');
-         const allDropDownArrows = document.querySelectorAll('.dropdown-arrow')
+         const allDropDownArrows = document.querySelectorAll('.dropdown-arrow');
+         initialTexts.set(dropdown, btn.childNodes[0].nodeValue.trim());
 
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -338,7 +340,7 @@ allDropDowns.forEach(function(menuItem) {
     if (isDifferentMenu) {
 
         // On enlève la classe "open"
-        // → ce qui ferme le dropdown
+        // ce qui ferme le dropdown
         menuItem.classList.remove('open');
     }
 
@@ -348,37 +350,41 @@ allDropDowns.forEach(function(menuItem) {
             const button = menu.parentElement;
             const arrowButton = button.querySelector('.dropdown-arrow');
             arrowButton.classList.toggle('up-arrow');
-            const btn = document.querySelector('.dropdown-btn');
             console.log(btn.childNodes[0]);
-            const empty = docment.querySelector('.empty');
+            
         });
 
         menu.querySelectorAll('li').forEach(item => {
-            item.addEventListener('click', () => {
-                console.log(item);
-                const value = item.dataset.value;
 
-                input.value = value;
-                const btn = document.querySelector('.dropdown-btn');
-               if (value !== '') {
+    item.addEventListener('click', () => {
 
-    btn.childNodes[0].nodeValue = value;
+        const value = item.dataset.value;
 
-    input.value = value;
+        input.value = value;
 
-} else {
 
-    // reset du filtre
-    btn.childNodes[0].nodeValue = btn.dataset.defaultText;
+        if (value !== '') {
 
-    input.value = '';
-}
+            // on affiche la valeur choisie
+            btn.childNodes[0].nodeValue = value;
 
-                // AJAX  pour contourner le refresh simple
-                fetchFilteredPhotos();
+        } else {
 
-            });
-        });
+            // RESET vers le texte d'origine
+            btn.childNodes[0].nodeValue = initialTexts.get(dropdown);
+
+            //  aussi l'input
+            input.value = '';
+        }
+
+        // fermeture du menu (optionnel mais propre)
+        menu.classList.remove('open');
+
+        // appel AJAX
+        fetchFilteredPhotos();
+    });
+
+});
     });
 
     document.addEventListener('click', () => {

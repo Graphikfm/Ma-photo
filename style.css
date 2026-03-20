@@ -135,6 +135,22 @@ text-transform: uppercase;
     width: 20px;
     height: 20px;
 }
+
+/*load more*/
+
+#load-more {
+    width:25%;
+    padding:20px;
+    text-align:center;
+    background:#d8d8d8;
+    border-radius:5px;
+    color: black;
+}
+#load-more:hover {
+    background: black;
+    color: white;
+}
+
 @media(min-width:768px) {
     .dropdown {
         width:50%;
@@ -701,9 +717,14 @@ flex-direction:column;
 }
 
 /* FOOTER */
+.ast-separate-container {
+    background: white;
+}
 .site-footer {
     border-top:3px solid black;
     margin-top: 20px;
+    background: white;
+    margin-top: 30px;
 }
 .menu-footer-1 {
     list-style: none;
