@@ -5,7 +5,7 @@
 
             BurgerNav.addEventListener('click', function() {
                 littleNav.classList.toggle('open');
-                console.log('test');
+                BurgerNav.classList.toggle('close-png');
             });
 
     });

@@ -14,7 +14,6 @@
     <p class="site-description"><?php bloginfo('description'); ?></p>
 
     <nav class="main-nav" aria-label="Menu principal">
-      <img class="burger-btn" src="http://maphoto.local/wp-content/uploads/2026/03/Statedefault.png" alt="">
       <?php
       wp_nav_menu([
         'theme_location' => 'Header',

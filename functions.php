@@ -152,29 +152,69 @@ function maphoto_enqueue_scripts() {
 
     $path2 = '/mobile-nav.js';
     wp_enqueue_script(
-        'maphoto-mobile-nav', // inventé ici ?
+        'maphoto-mobile-nav',
         get_stylesheet_directory_uri() . $path2,
         [],
         null,
         true
     );
+
+    // $path3 = '/dropdown.js';
+    // wp_enqueue_script(
+    //     'maphoto-dropdown',
+    //     get_stylesheet_directory_uri() .$path3,
+    //     [],
+    //     null,
+    //     true
+    // );
 }
 add_action('wp_enqueue_scripts', 'maphoto_enqueue_scripts');
 
 
 // Ajout de la fonction AJAX 
-add_action('wp_ajax_load_more_photos', 'load_more_photos'); // AJAX executera cette action
+add_action('wp_ajax_nopriv_load_more_photos', 'load_more_photos');
+add_action('wp_ajax_load_more_photos', 'load_more_photos');
 
 function load_more_photos() {
 
-  $offset = intval($_POST['offset']); // Interval pour transformer la string en entier
+  $offset = intval($_POST['offset']);
 
   $args = [
     'post_type'      => 'photos',
     'posts_per_page' => 4,
     'offset'         => $offset,
-    'post_status' =>'publish'
+    'post_status'    => 'publish',
+    'tax_query'      => []
   ];
+
+  // FILTRE CATEGORIE
+  if (!empty($_POST['categorie'])) {
+    $args['tax_query'][] = [
+      'taxonomy' => 'photo_categorie',
+      'field'    => 'slug',
+      'terms'    => $_POST['categorie']
+    ];
+  }
+
+  // FILTRE FORMAT
+  if (!empty($_POST['format'])) {
+    $args['tax_query'][] = [
+      'taxonomy' => 'photo_format',
+      'field'    => 'slug',
+      'terms'    => $_POST['format']
+    ];
+  }
+
+  // relation AND si plusieurs filtres
+  if (count($args['tax_query']) > 1) {
+    $args['tax_query']['relation'] = 'AND';
+  }
+
+  // TRI
+  if (!empty($_POST['order'])) {
+    $args['orderby'] = 'date';
+    $args['order']   = $_POST['order'];
+  }
 
   $query = new WP_Query($args);
 
@@ -206,10 +246,82 @@ function load_more_photos() {
       </div>
 
       <?php
-
     endwhile;
   endif;
 
   wp_reset_postdata();
   wp_die();
+}
+
+add_action('wp_ajax_filter_photos', 'filter_photos');
+add_action('wp_ajax_nopriv_filter_photos', 'filter_photos');
+
+function filter_photos() {
+
+    $args = [
+        'post_type' => 'photos',
+        'posts_per_page' => 8,
+        'tax_query' => []
+    ];
+
+    if (!empty($_POST['categorie'])) {
+        $args['tax_query'][] = [
+            'taxonomy' => 'photo_categorie',
+            'field' => 'slug',
+            'terms' => $_POST['categorie']
+        ];
+    }
+
+    if (!empty($_POST['format'])) {
+        $args['tax_query'][] = [
+            'taxonomy' => 'photo_format',
+            'field' => 'slug',
+            'terms' => $_POST['format']
+        ];
+    }
+
+    if (count($args['tax_query']) > 1) {
+        $args['tax_query']['relation'] = 'AND';
+    }
+
+    if (!empty($_POST['order'])) {
+        $args['orderby'] = 'date';
+        $args['order'] = $_POST['order'];
+    }
+
+    $query = new WP_Query($args);
+
+    if ($query->have_posts()) :
+        while ($query->have_posts()) : $query->the_post();
+
+            $full = wp_get_attachment_image_src(get_post_thumbnail_id(), 'full');
+            $cats = get_the_terms(get_the_ID(), 'photo_categorie');
+            $cat_name = $cats ? $cats[0]->name : '';
+            $reference = get_post_meta(get_the_ID(), 'reference', true);
+?>
+
+<div class="vignette"
+     data-full="<?= esc_url($full[0]); ?>"
+     data-cat="<?= esc_attr($cat_name); ?>"
+     data-ref="<?= esc_attr($reference); ?>">
+
+  <?php the_post_thumbnail('medium'); ?>
+
+  <div class="vignette-overlay">
+    <a href="<?php the_permalink(); ?>" class="vignette-link">
+      <img src="http://maphoto.local/wp-content/uploads/2025/12/Group.png">
+    </a>
+
+    <img class="open-lightbox"
+         src="http://maphoto.local/wp-content/uploads/2026/01/Icon_fullscreen.png">
+  </div>
+</div>
+
+<?php
+        endwhile;
+    else :
+        echo '<p>Aucune photo trouvée.</p>';
+    endif;
+
+    wp_die();
 }

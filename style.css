@@ -20,6 +20,8 @@ Mobile nav
     background: white;
     position: fixed;
     z-index: 1;
+    box-shadow: 8px 8px 20px 1px rgba(63, 63, 63, 0.1);
+    align-items: center;
 
 }
 .little-nav {
@@ -36,6 +38,9 @@ Mobile nav
 }
 .open {
     display:flex;
+}
+.close-png {
+    background-image: url('http://maphoto.local/wp-content/uploads/2026/03/Menu.png') !important;
 }
 .little-nav  li {
     list-style: none;
@@ -61,6 +66,11 @@ text-transform: uppercase;
     cursor: pointer;
 }
 
+.mobile-header-container img {
+    height: fit-content;
+    width: 50%;
+}
+
 @media(min-width:680px) {
 
     #burger-btn {
@@ -68,13 +78,126 @@ text-transform: uppercase;
     }
 }
 
+/* Dropdown*/
+#filter-form {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    z-index: 9999;
+    flex-direction: column;
+    gap: 20px;
+}
+.dropdown-menu {
+    display: none;
+    background: white;
+    border: 1px solid #ccc;
+    position: absolute;
+  
+    top: 50px;
+    border-radius: 0px 0px 16px 16px;
+}
+.empty {
+    height: 40px;
+}
+
+.dropdown-menu.open {
+    display: block;
+    width: 100%;
+    z-index: 3;
+}
+
+.dropdown {
+    position: relative;
+    width: 100%;
+}
+.dropdown-right {
+    position: relative;
+    width: 100%;
+
+}
+.dropdown button, .dropdown-right button {
+    width: 100%;
+    border-radius: 16px 16px 16px 16px;
+}
+.dropdown-arrow {
+    background-image: url('http://maphoto.local/wp-content/uploads/2026/03/IconDown.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    width: 20px;
+    height: 20px;
+}
+@media(min-width:768px) {
+    .dropdown {
+        width:50%;
+    }
+    .dropdown-right {
+        width:25%;
+        display: flex;
+        justify-content: end;
+    }
+    #filter-form {
+        gap: 30px;
+        flex-direction: row;
+        gap: 30px;
+    }
+}
+
+
+.dropdown li, .dropdown-right li {
+    cursor: pointer;
+    padding: 5px;
+    list-style: none;
+}
+.dropdown li:hover, .dropdown-right li:hover {
+    background: #E00000;
+    color:white;
+}
+.dropdown-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 16px 32px;
+    background: white;
+    color: black;
+    border: 1px solid #b7b7b7;
+    cursor: pointer;
+}
+
+.dropdown-btn:hover {
+    background: white;
+    border: 1px solid blue;
+    color: black;
+}
+
+.dropdown-btn:active {
+    background: white;
+    border: 1px solid blue;
+    color: black;
+    border-radius: 16px 16px 0px 0px;
+}
+
+.dropdown-btn:focus, 
+.dropdown-btn:focus-visible {
+    background: white;
+    border: 1px solid blue;
+    color: black;
+   border-radius: 16px 16px 0px 0px;
+}
+
 
 /* flitres */
 .container-filtres {
     width: 100%;
     display: flex;
-    gap: 30px;
+    gap: 20px;
     flex-direction: column;
+}
+@media(min-width:768px) {
+    .container-filtres {
+        gap:30px;
+    }
 }
 .filter_left {
     justify-content: space-between;
@@ -90,7 +213,7 @@ DESKTOP NAV
 
 
 ul {
-    margin:20px 0px;
+    margin:0px;
 }
  .main-nav ul, .section-media,.section-filter, .filter_left {
     display: flex;
@@ -145,6 +268,7 @@ a {
     justify-content: center;
     align-items: center;
     padding-top: 30px;
+    background: white;
 }
 .section-filter {
     justify-content: space-around;
@@ -563,6 +687,7 @@ flex-direction:column;
 /* FOOTER */
 .site-footer {
     border-top:3px solid black;
+    margin-top: 20px;
 }
 .menu-footer-1 {
     list-style: none;

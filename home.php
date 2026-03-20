@@ -12,55 +12,83 @@
 
   <!-- FILTRES -->
   <section class="section-filter">
-    <form method="get" class="filter_left">
-      <div class="container-filtres">
-      <!-- CATEGORIES -->
-      <select name="categorie" onchange="this.form.submit()">
-        <option value="">Catégories</option>
-        <?php
-        $categories = get_terms([
-          'taxonomy' => 'photo_categorie',
-          'hide_empty' => false
-        ]);
-        foreach ($categories as $cat) :
-        ?>
-          <option value="<?= esc_attr($cat->slug); ?>" <?= selected($_GET['categorie'] ?? '', $cat->slug); ?>>
-            <?= esc_html($cat->name); ?>
-          </option>
-        <?php endforeach; ?>
-      </select>
 
-      <!-- FORMATS -->
-      <select name="format" onchange="this.form.submit()">
-        <option value="">Formats</option>
-        <?php
-        $formats = get_terms([
-          'taxonomy' => 'photo_format',
-          'hide_empty' => false
-        ]);
-        foreach ($formats as $format) :
-        ?>
-          <option value="<?= esc_attr($format->slug); ?>" <?= selected($_GET['format'] ?? '', $format->slug); ?>>
-            <?= esc_html($format->name); ?>
-          </option>
-        <?php endforeach; ?>
-      </select>
+<form method="get" id="filter-form">
+
+<div class="container-filtres">
+
+    <!-- CATEGORIES -->
+    <div class="dropdown">
+        <button type="button" class="dropdown-btn">
+            Catégories
+            <div class="dropdown-arrow"></div>
+        </button>
+
+        <ul class="dropdown-menu">
+          <li class="empty" data-value=""></li>
+            <?php
+            $categories = get_terms([
+                'taxonomy' => 'photo_categorie',
+                'hide_empty' => false
+            ]);
+             
+            foreach ($categories as $cat) :
+            ?>
+                <li data-value="<?= esc_attr($cat->slug); ?>">
+                    <?= esc_html($cat->name); ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+
+        <input type="hidden" name="categorie" value="<?= $_GET['categorie'] ?? ''; ?>">
     </div>
-    <!-- TRI DATE -->
-      <select class="select-tri" name="order" onchange="this.form.submit()">
-        <option value="">Trier par</option>
 
-        <option value="DESC" <?= selected($_GET['order'] ?? '', 'DESC'); ?>>
-          Plus récentes
-        </option>
+    <!-- FORMATS -->
+    <div class="dropdown">
+        <button type="button" class="dropdown-btn">
+            Formats
+            <div class="dropdown-arrow"></div>
+        </button>
 
-        <option value="ASC" <?= selected($_GET['order'] ?? '', 'ASC'); ?>>
-          Plus anciennes
-        </option>
+        <ul class="dropdown-menu">
+            <li class="empty" data-value=""></li>
+            <?php
+            $formats = get_terms([
+                'taxonomy' => 'photo_format',
+                'hide_empty' => false
+            ]);
+            foreach ($formats as $format) :
+            ?>
+                <li data-value="<?= esc_attr($format->slug); ?>">
+                    <?= esc_html($format->name); ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
 
-      </select>
-    </form>
-  </section>
+        <input type="hidden" name="format" value="<?= $_GET['format'] ?? ''; ?>">
+    </div>
+
+</div>
+
+<!-- TRI -->
+<div class="dropdown-right">
+    <button type="button" class="dropdown-btn">
+        Trier par
+        <div class="dropdown-arrow"></div>
+    </button>
+
+    <ul class="dropdown-menu">
+        <li class="empty" data-value=""></li>
+        <li data-value="DESC">Plus récentes</li>
+        <li data-value="ASC">Plus anciennes</li>
+    </ul>
+
+    <input type="hidden" name="order" value="<?= $_GET['order'] ?? ''; ?>">
+</div>
+
+</form>
+
+</section>
 
   <!-- AFFICHAGE PHOTOS -->
   <section class="section-display-media">
@@ -229,7 +257,7 @@ document.querySelector('.lightbox-prev').addEventListener('click', () => {
 
 
 //ajax
-
+document.addEventListener('DOMContentLoaded', () => {
 // on recup l'element html qui represente le bouton charger plus
 const loadMoreBtn = document.getElementById('load-more');
 // on l'exploite dans une condition que si il existe bien cet element alors on lui applique un evenement au click
@@ -238,40 +266,117 @@ if (loadMoreBtn) {
   loadMoreBtn.addEventListener('click', function() {
   // on recup la valeur du dataset mis en place dans notre element HTML
     const offset = parseInt(this.dataset.offset);
-
+     const form = document.getElementById('filter-form');
+    const formData = new FormData(form);
     // on recup ajax dans wordpress à partir du chemin normalisé
     // Structure de la requette HTTP -> url / mehtode / headers / le body (données à envoyer)
-    fetch('<?php echo admin_url("admin-ajax.php"); ?>', {
-      method: 'POST',// On passe par la methode post pour afficher nos données
-      // entete adapté pour wordpress
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      // les données à afficher seront de type string url action=load_more_photos&offset=8
-      body: new URLSearchParams({
-        action: 'load_more_photos', // On demande a wp d'executer l'action AJAX nommée load_more_photos -> $_POST['action'] = 'load_more_photos';
-        offset: offset // $offset = intval($_POST['offset']); 
-      })
-    })
+ fetch('http://maphoto.local/wp-admin/admin-ajax.php', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+  },
+  body: new URLSearchParams({
+    action: 'load_more_photos',
+    offset: offset || 0,
+    categorie: formData.get('categorie') || '',
+    format: formData.get('format') || '',
+    order: formData.get('order') || ''
+  }).toString()
+})
     .then(response => response.text()) // lecture text des données
     .then(data => {
       console.log(data.trim());
+      console.log(data);
       // si data est vide (qu'il n'y a plus de posts a charger) le bt disparait
       if (data.trim() === '') {
         this.style.display = 'none';
         return;
       } else { //sinon on ajoute les données avant fin de la section html
          document.querySelector('.section-display-media').insertAdjacentHTML('beforeend', data);
-      this.dataset.offset = offset + 8; // 8+8
+      this.dataset.offset = offset + 4;
       }
-      
-      
-
     });
 
   });
 
-}
+}});
+
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    const dropdowns = document.querySelectorAll('.dropdown, .dropdown-right');
+    const form = document.getElementById('filter-form');
+
+    dropdowns.forEach(dropdown => {
+        const btn = dropdown.querySelector('.dropdown-btn');
+        const menu = dropdown.querySelector('.dropdown-menu');
+        const input = dropdown.querySelector('input');
+
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+
+            document.querySelectorAll('.dropdown-menu').forEach(m => {
+                if (m !== menu) m.classList.remove('open');
+            });
+
+            menu.classList.toggle('open');
+        });
+
+        menu.querySelectorAll('li').forEach(item => {
+            item.addEventListener('click', () => {
+                console.log(item);
+                const value = item.dataset.value;
+
+                input.value = value;
+                const btn = document.querySelector('.dropdown-btn');
+                btn.childNodes[0].nodeValue = value;
+
+                // AJAX  pour contourner le refresh simple
+                fetchFilteredPhotos();
+
+            });
+        });
+    });
+
+    document.addEventListener('click', () => {
+        document.querySelectorAll('.dropdown-menu').forEach(m => {
+            m.classList.remove('open');
+        });
+    });
+
+    // On crée notre fonction qui va utiliser AJAX
+    function fetchFilteredPhotos() {
+
+        const formData = new FormData(form);
+
+        fetch('<?php echo admin_url("admin-ajax.php"); ?>', {
+            method: 'POST',
+            body: new URLSearchParams({
+                action: 'filter_photos',
+                categorie: formData.get('categorie'),
+                format: formData.get('format'),
+                order: formData.get('order')
+            })
+        })
+        .then(res => res.text())
+        .then(html => {
+            document.querySelector('.section-display-media').innerHTML = html;
+          // console.log(html);
+            // reset bouton load more
+            const btn = document.getElementById('load-more');
+            if (btn) {
+                btn.dataset.offset = 8;
+                btn.style.display = 'block';
+            }
+        })
+    }
+
+});
 </script>
 
 <?php get_footer(); ?>
