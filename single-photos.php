@@ -131,7 +131,7 @@
 
     <!-- VOUS AIMEREZ AUSSI -->
     <div class="bloc3">
-        <p>Vous aimerez aussi</p>
+        <h3>Vous aimerez aussi</h3>
     </div>
 
     <div class="bloc4">

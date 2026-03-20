@@ -27,10 +27,10 @@
     </a>
       <ul>
         <li>
-            <a href="index.php">ACCUEIL </a>
+            <a href="http://maphoto.local">ACCUEIL </a>
         </li>
         <li>
-           <a href="#"> A PROPOS</a>
+           <a href="http://maphoto.local/a-propos"> A PROPOS</a>
         </li>
         <li>
             <a class="contact-button open-contact">
@@ -41,7 +41,9 @@
     </nav>
     
     <div class="mobile-header-container">
-      <img src="http://maphoto.local/wp-content/uploads/2026/01/Nathalie-Mota.png" alt="">
+      <a href="http://maphoto.local">
+        <img src="http://maphoto.local/wp-content/uploads/2026/01/Nathalie-Mota.png" alt="">
+      </a>
       <div id="burger-btn">
         <!-- <img  src="http://maphoto.local/wp-content/uploads/2026/03/Statedefault.png" alt=""> -->
       </div>
@@ -49,10 +51,10 @@
     <nav class="little-nav">
       <ul>
         <li>
-            <a href="index.php">ACCUEIL </a>
+            <a href="http://maphoto.local">ACCUEIL </a>
         </li>
         <li>
-           <a href="#"> A PROPOS</a>
+           <a href="http://maphoto.local/a-propos"> A PROPOS</a>
         </li>
         <li>
             <div class="contact-button open-contact">

@@ -66,7 +66,7 @@ text-transform: uppercase;
     cursor: pointer;
 }
 
-.mobile-header-container img {
+.mobile-header-container a {
     height: fit-content;
     width: 50%;
 }
@@ -83,7 +83,7 @@ text-transform: uppercase;
     display: flex;
     justify-content: space-between;
     width: 100%;
-    z-index: 9999;
+    z-index: 9;
     flex-direction: column;
     gap: 20px;
 }
@@ -121,6 +121,14 @@ text-transform: uppercase;
 }
 .dropdown-arrow {
     background-image: url('http://maphoto.local/wp-content/uploads/2026/03/IconDown.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    width: 20px;
+    height: 20px;
+}
+.up-arrow {
+    background-image: url('http://maphoto.local/wp-content/uploads/2026/03/IconUp.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -230,6 +238,10 @@ ul {
 .main-nav ul li {
     list-style: none;
     cursor: pointer;
+}
+.main-nav ul li a:hover{
+   font-weight: bold;
+   color: black;
 }
 a {
     text-decoration: none;
@@ -590,7 +602,7 @@ flex-direction:column;
 .container_infos h1 {
     text-transform: uppercase;
     font-style: italic;
-    font-size: 50px;
+    font-size: 70px;
 }
 .container_infos ul li {
     list-style:none;
@@ -651,6 +663,10 @@ flex-direction:column;
     width:100%;
     display:flex;
     flex-direction:column;
+}
+.bloc3 > h3 {
+    text-transform: uppercase;
+    margin: 20px 0px;
 }
 .bloc4 {
     display:flex;
@@ -732,9 +748,9 @@ flex-direction:column;
 .bloc1 {
     flex-direction:row;
 }
+.bloc3 > h3 {
+    margin: 40px 0px;
 }
-@media (min-width: 768px) {
-
 }
 
 /* media query*/

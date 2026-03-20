@@ -270,18 +270,18 @@ if (loadMoreBtn) {
     const formData = new FormData(form);
     // on recup ajax dans wordpress à partir du chemin normalisé
     // Structure de la requette HTTP -> url / mehtode / headers / le body (données à envoyer)
- fetch('http://maphoto.local/wp-admin/admin-ajax.php', {
+    fetch('<?php echo admin_url("admin-ajax.php"); ?>', {
   method: 'POST',
   headers: {
-    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    'Content-Type': 'application/x-www-form-urlencoded'
   },
   body: new URLSearchParams({
     action: 'load_more_photos',
-    offset: offset || 0,
+    offset: offset,
     categorie: formData.get('categorie') || '',
     format: formData.get('format') || '',
     order: formData.get('order') || ''
-  }).toString()
+  })
 })
     .then(response => response.text()) // lecture text des données
     .then(data => {
@@ -295,6 +295,9 @@ if (loadMoreBtn) {
          document.querySelector('.section-display-media').insertAdjacentHTML('beforeend', data);
       this.dataset.offset = offset + 4;
       }
+      
+      
+
     });
 
   });
@@ -316,15 +319,38 @@ document.addEventListener('DOMContentLoaded', () => {
         const btn = dropdown.querySelector('.dropdown-btn');
         const menu = dropdown.querySelector('.dropdown-menu');
         const input = dropdown.querySelector('input');
+         const allDropDownArrows = document.querySelectorAll('.dropdown-arrow')
 
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
 
-            document.querySelectorAll('.dropdown-menu').forEach(m => {
-                if (m !== menu) m.classList.remove('open');
-            });
+            // On récupère tous les dropdowns du document
+const allDropDowns = document.querySelectorAll('.dropdown-menu');
 
+// On parcourt chaque dropdown un par un
+allDropDowns.forEach(function(menuItem) {
+
+    // On vérifie si le dropdown actuel est différent
+    // de celui sur lequel on vient de cliquer
+    const isDifferentMenu = (menuItem !== menu);
+
+    // Si c'est un autre menu
+    if (isDifferentMenu) {
+
+        // On enlève la classe "open"
+        // → ce qui ferme le dropdown
+        menuItem.classList.remove('open');
+    }
+
+});
             menu.classList.toggle('open');
+            console.log(menu);
+            const button = menu.parentElement;
+            const arrowButton = button.querySelector('.dropdown-arrow');
+            arrowButton.classList.toggle('up-arrow');
+            const btn = document.querySelector('.dropdown-btn');
+            console.log(btn.childNodes[0]);
+            const empty = docment.querySelector('.empty');
         });
 
         menu.querySelectorAll('li').forEach(item => {
@@ -334,7 +360,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 input.value = value;
                 const btn = document.querySelector('.dropdown-btn');
-                btn.childNodes[0].nodeValue = value;
+               if (value !== '') {
+
+    btn.childNodes[0].nodeValue = value;
+
+    input.value = value;
+
+} else {
+
+    // reset du filtre
+    btn.childNodes[0].nodeValue = btn.dataset.defaultText;
+
+    input.value = '';
+}
 
                 // AJAX  pour contourner le refresh simple
                 fetchFilteredPhotos();
