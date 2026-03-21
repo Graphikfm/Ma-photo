@@ -23,7 +23,7 @@ add_action('after_setup_theme', function () {
 function add_contact_link_to_menu($items, $args) {// (listes des liens du menu wp, menu ciblé)
     if ($args->theme_location === 'primary') {
         $items .= '<li class="menu-item contact-item">
-            <a class="contact-button open-contact" href="#contact">CONTACT</a>
+            <a class="contact-button open-contact">CONTACT</a>
         </li>';
     }
     return $items;
