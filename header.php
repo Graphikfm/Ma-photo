@@ -14,30 +14,20 @@
     <p class="site-description"><?php bloginfo('description'); ?></p>
 
     <nav class="main-nav" aria-label="Menu principal">
-      <?php
+      
+          <a class="brand" href="<?php echo esc_url(home_url('/')); ?>">
+      <img src="http://maphoto.local/wp-content/uploads/2026/01/Nathalie-Mota.png" alt="">
+    </a>
+    <?php
+?>
+  <?php
       wp_nav_menu([
-        'theme_location' => 'Header',
+        'theme_location' => 'primary',
         'container'      => false,
         'menu_class'     => 'menu',
         'fallback_cb'    => '__return_empty_string',
       ]);
       ?>
-          <a class="brand" href="<?php echo esc_url(home_url('/')); ?>">
-      <img src="http://maphoto.local/wp-content/uploads/2026/01/Nathalie-Mota.png" alt="">
-    </a>
-      <ul>
-        <li>
-            <a href="http://maphoto.local">ACCUEIL </a>
-        </li>
-        <li>
-           <a href="http://maphoto.local/a-propos"> A PROPOS</a>
-        </li>
-        <li>
-            <a class="contact-button open-contact">
-              CONTACT
-            </a>
-        </li>
-      </ul>
     </nav>
     
     <div class="mobile-header-container">
@@ -49,19 +39,14 @@
       </div>
     </div>
     <nav class="little-nav">
-      <ul>
-        <li>
-            <a href="http://maphoto.local">ACCUEIL </a>
-        </li>
-        <li>
-           <a href="http://maphoto.local/a-propos"> A PROPOS</a>
-        </li>
-        <li>
-            <div class="contact-button open-contact">
-              CONTACT
-            </div>
-        </li>
-      </ul>
+       <?php
+      wp_nav_menu([
+        'theme_location' => 'primary',
+        'container'      => false,
+        'menu_class'     => 'menu',
+        'fallback_cb'    => '__return_empty_string',
+      ]);
+      ?> 
     </nav>
 </header>
 

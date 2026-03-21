@@ -19,7 +19,16 @@ add_action('after_setup_theme', function () {
         'footer' => 'Footer',
     ]);
 });
-
+// Ajout d'un élément externe au menu principal de wp
+function add_contact_link_to_menu($items, $args) {// (listes des liens du menu wp, menu ciblé)
+    if ($args->theme_location === 'primary') {
+        $items .= '<li class="menu-item contact-item">
+            <a class="contact-button open-contact" href="#contact">CONTACT</a>
+        </li>';
+    }
+    return $items;
+}
+add_filter('wp_nav_menu_items', 'add_contact_link_to_menu', 10, 2);
 /*
 * On utilise une fonction pour créer notre custom post type 'Séries TV'
 */
