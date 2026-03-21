@@ -1,13 +1,13 @@
 <?php
 function maphoto_enqueue_styles() {
     // Style du thème parent Astra
-    wp_enqueue_style('parent-style', get_template_directory_uri() . '/style.css');
+    wp_enqueue_style('parent-style', get_template_directory_uri() . '/style.css'); // On charge le css issu du theme parent
 
     // Style du thème enfant (maphoto)
     wp_enqueue_style(
         'child-style',
-        get_stylesheet_directory_uri() . '/style.css',
-        ['parent-style'] 
+        get_stylesheet_directory_uri() . '/style.css', // On charge le theme issu du theme courant
+        ['parent-style'] // on charge le theme parent avant celui de l'enfant afin de l'écraser lors du chargement de l'enfant
     );
 }
 add_action('wp_enqueue_scripts', 'maphoto_enqueue_styles');
@@ -21,14 +21,14 @@ add_action('after_setup_theme', function () {
 });
 // Ajout d'un élément externe au menu principal de wp
 function add_contact_link_to_menu($items, $args) {// (listes des liens du menu wp, menu ciblé)
-    if ($args->theme_location === 'primary') {
+    if ($args->theme_location === 'primary') { // ON utilise l'objet $args pour lui attribuer un proprieté wp afin de créer notre condition
         $items .= '<li class="menu-item contact-item">
             <a class="contact-button open-contact">CONTACT</a>
-        </li>';
+        </li>'; // On concatene du contenu html avec notre objet wp
     }
-    return $items;
+    return $items; // on retourne l'objet concaténé 
 }
-add_filter('wp_nav_menu_items', 'add_contact_link_to_menu', 10, 2);
+add_filter('wp_nav_menu_items', 'add_contact_link_to_menu', 10, 2); // peut modifier maintenant les données du menu en le ciblant avant son affichage avec un filtre wp ('hook ciblé','fonction ciblée',priorité,nb parametres)
 /*
 * On utilise une fonction pour créer notre custom post type 'Séries TV'
 */
@@ -53,7 +53,7 @@ function wpm_register_photos_cpt() {
         'labels'              => $labels, // Associe les labels définis juste avant = Le CPT utilise ces textes pour l’interface
 
         'supports'            => array( 'title', 'editor', 'thumbnail', 'custom-fields'),
-        'show_in_rest'        => true,
+        'show_in_rest'        => true, // api rest
         'hierarchical'        => false, // les images n'ont pas de contenu enfant
         'public'              => true, // CPT accessible partout (admin et navigateur)
         'has_archive'         => true, // lien page avec toutes les photos disponible dans le cpt
@@ -73,8 +73,8 @@ function wpm_register_photos_cpt() {
     );
 
     register_taxonomy(
-        'photo_categorie',
-        'photos',
+        'photo_categorie', // taxonomie
+        'photos', // cpt
         array(
             'labels'            => $labels_cat,
             'hierarchical'      => true, // active la hierarchie (categorie de photos)
@@ -110,7 +110,7 @@ function wpm_register_photos_cpt() {
      * - référence
      * - année
      * - type (argentique / numérique)
-     */
+     */ 
     register_post_meta(
         'photos',
         'reference',
@@ -144,7 +144,7 @@ function wpm_register_photos_cpt() {
         )
     );
 }
-add_action( 'init', 'wpm_register_photos_cpt',0);
+add_action( 'init', 'wpm_register_photos_cpt',0); // (hook init-> special cpt taxo,fonction, priorité -> au plus tot)
 
 
 // modale contact
@@ -165,7 +165,7 @@ function maphoto_enqueue_scripts() {
         get_stylesheet_directory_uri() . $path2,
         [],
         null,
-        true
+        false
     );
 
     // $path3 = '/dropdown.js';
@@ -236,23 +236,7 @@ function load_more_photos() {
       $reference = get_post_meta(get_the_ID(), 'reference', true);
       ?>
 
-      <div class="vignette"
-           data-full="<?= esc_url($full[0]); ?>"
-           data-cat="<?= esc_attr($cat_name); ?>"
-           data-ref="<?= esc_attr($reference); ?>">
-
-        <?php the_post_thumbnail('medium'); ?>
-
-        <div class="vignette-overlay">
-          <a href="<?php the_permalink(); ?>" class="vignette-link">
-            <img src="http://maphoto.local/wp-content/uploads/2025/12/Group.png" alt="">
-          </a>
-
-          <img class="open-lightbox"
-               src="http://maphoto.local/wp-content/uploads/2026/01/Icon_fullscreen.png"
-               alt="">
-        </div>
-      </div>
+      <?php get_template_part('template-parts/photo-card'); ?>
 
       <?php
     endwhile;
@@ -309,22 +293,7 @@ function filter_photos() {
             $reference = get_post_meta(get_the_ID(), 'reference', true);
 ?>
 
-<div class="vignette"
-     data-full="<?= esc_url($full[0]); ?>"
-     data-cat="<?= esc_attr($cat_name); ?>"
-     data-ref="<?= esc_attr($reference); ?>">
-
-  <?php the_post_thumbnail('medium'); ?>
-
-  <div class="vignette-overlay">
-    <a href="<?php the_permalink(); ?>" class="vignette-link">
-      <img src="http://maphoto.local/wp-content/uploads/2025/12/Group.png">
-    </a>
-
-    <img class="open-lightbox"
-         src="http://maphoto.local/wp-content/uploads/2026/01/Icon_fullscreen.png">
-  </div>
-</div>
+<?php get_template_part('template-parts/photo-card'); ?>
 
 <?php
         endwhile;
