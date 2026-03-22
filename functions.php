@@ -167,6 +167,14 @@ function maphoto_enqueue_scripts() {
         null,
         false
     );
+    $path3 = '/openLightbox.js';
+    wp_enqueue_script(
+        'maphoto-openLightbox',
+        get_stylesheet_directory_uri() . $path3,
+        [],
+        null,
+        true
+    );
 
     // $path3 = '/dropdown.js';
     // wp_enqueue_script(
@@ -184,13 +192,13 @@ add_action('wp_enqueue_scripts', 'maphoto_enqueue_scripts');
 add_action('wp_ajax_nopriv_load_more_photos', 'load_more_photos');
 add_action('wp_ajax_load_more_photos', 'load_more_photos');
 
-function load_more_photos() {
+function load_more_photos() { // on viendra l'appeler dans notre fetch
 
-  $offset = intval($_POST['offset']);
+  $offset = intval($_POST['offset']); // on a notre repere (on charge +4 apres offset =8)
 
   $args = [
     'post_type'      => 'photos',
-    'posts_per_page' => 4,
+    'posts_per_page' => 4, // le nombre a generer
     'offset'         => $offset,
     'post_status'    => 'publish',
     'tax_query'      => []
@@ -249,16 +257,16 @@ function load_more_photos() {
 add_action('wp_ajax_filter_photos', 'filter_photos');
 add_action('wp_ajax_nopriv_filter_photos', 'filter_photos');
 
-function filter_photos() {
+function filter_photos() { // on viendra l'appeler dans notre fetch
 
     $args = [
-        'post_type' => 'photos',
-        'posts_per_page' => 8,
-        'tax_query' => []
+        'post_type' => 'photos', // on vient recuprer dans le cpt photos
+        'posts_per_page' => 8, // on affiche les 8 premiers posts si il y en a au moins 8 (si il y en a moins ca affichera moins)
+        'tax_query' => [] // sans filtre donc tous les posts categories confondues
     ];
-
-    if (!empty($_POST['categorie'])) {
-        $args['tax_query'][] = [
+    // si on passe par tel ou tel dropdown/ filtre
+    if (!empty($_POST['categorie'])) { // Si une catégorie a été envoyée depuis le dropdown dans home.php
+        $args['tax_query'][] = [ // on filtre par catégorie
             'taxonomy' => 'photo_categorie',
             'field' => 'slug',
             'terms' => $_POST['categorie']
@@ -266,23 +274,23 @@ function filter_photos() {
     }
 
     if (!empty($_POST['format'])) {
-        $args['tax_query'][] = [
+        $args['tax_query'][] = [ // on filtre par format
             'taxonomy' => 'photo_format',
             'field' => 'slug',
             'terms' => $_POST['format']
         ];
     }
-
+// une condition que si on compte deux dropdonws (filtres) choisis alors on les prends en compte ensemble et on filtre selon les deux criteres
     if (count($args['tax_query']) > 1) {
         $args['tax_query']['relation'] = 'AND';
     }
-
+  // On tri par date
     if (!empty($_POST['order'])) {
         $args['orderby'] = 'date';
         $args['order'] = $_POST['order'];
     }
 
-    $query = new WP_Query($args);
+    $query = new WP_Query($args); // on recupere les données de $arg à afficher
 
     if ($query->have_posts()) :
         while ($query->have_posts()) : $query->the_post();

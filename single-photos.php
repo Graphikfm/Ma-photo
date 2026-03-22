@@ -37,7 +37,7 @@
 
             <ul>
                 <li>
-                    REFERENCE : <?php echo esc_html($reference); ?>
+                    REFERENCE : <?php /* ON SECURISE EN TRANSFORMANT EN STRING (ideal dans ce contexte de données) */ echo esc_html($reference); ?>
                 </li>
 
                 <?php if ($cats) : ?>
@@ -160,9 +160,7 @@ if ($cats) {
             $related_query->the_post(); ?>
 
             <div class="container-related-img">
-                <a href="<?php the_permalink(); ?>">
-                    <?php the_post_thumbnail('medium'); ?>
-                </a>
+               <?php get_template_part('template-parts/photo-card'); ?>
             </div>
 
         <?php endwhile;
@@ -175,12 +173,38 @@ if ($cats) {
 
 </div>
 </section>
+<!-- LIGHTBOX -->
+<div id="lightbox" class="hidden">
+  <div class="lightbox-overlay"></div>
+
+  <div class="lightbox-content">
+    <span class="lightbox-close">×</span>
+    <span class="lightbox-prev">← Précédente</span>
+    <div class="image-wrapper">
+ <img id="lightbox-img" src="" alt="">
+ <div class="lightbox-meta"></div>
+    </div>
+   
+    
+
+    <span class="lightbox-next">Suivante →</span>
+  </div>
+</div>
 
 <?php endwhile; endif; ?>
 
 <?php get_footer(); ?>
 
 <script>
+
+
+
+
+
+
+
+
+
 document.addEventListener("DOMContentLoaded", function() {
 
     const btnNext = document.querySelector('.nav-next');
