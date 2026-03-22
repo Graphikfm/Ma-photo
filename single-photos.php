@@ -1,5 +1,6 @@
 <?php get_header(); ?>
 
+<!-- si il y a au moins un post alors tant qu'il y a un post a charger on affiche le post -->
 <?php if (have_posts()) : while (have_posts()) : the_post(); 
 
   $cats = get_the_terms(get_the_ID(), 'photo_categorie');
@@ -15,9 +16,9 @@
   $next_post = get_next_post(true, '', 'photo_categorie');
     // var_dump($prev_post);
     // On recupe l'url de l'image à la une liée au post (suivant ou precedent)
-  $prev_thumb = $prev_post ? get_the_post_thumbnail_url($prev_post, 'medium') : '';
+  $prev_thumb = $prev_post ? get_the_post_thumbnail_url($prev_post, 'medium') : ''; // Si il y a un post précédent disponible, alors on récupère le lien du thumbnail correspondant
 //   var_dump($prev_thumb);
-  $next_thumb = $next_post ? get_the_post_thumbnail_url($next_post, 'medium') : '';
+  $next_thumb = $next_post ? get_the_post_thumbnail_url($next_post, 'medium') : ''; // ET inversement
 
 ?>
 
@@ -213,17 +214,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
     miniature.style.opacity = "0";
 
-    if (btnNext) {
-        btnNext.addEventListener('mouseover', function() {
-            const thumb = this.dataset.thumb;
-            if (thumb) {
-                miniature.src = thumb;
-                miniature.style.opacity = "1";
+    if (btnNext) { // context bouton suivant
+        btnNext.addEventListener('mouseover', function() { // on lie l'evenement au survol au bouton next
+            const thumb = this.dataset.thumb; // on recup la valeur lié au dataset "data-thumb"
+            if (thumb) { // si on recupere bien une url
+                miniature.src = thumb; // alors on applique cette valeur au src de notre element html miniature 
+                miniature.style.opacity = "1"; // et on affiche cet l'élément 
             }
         });
 
         btnNext.addEventListener('mouseleave', function() {
-            miniature.style.opacity = "0";
+            miniature.style.opacity = "0"; // et on cache cet l'élément si la souris ne survol plus le bouton next
         });
     }
 

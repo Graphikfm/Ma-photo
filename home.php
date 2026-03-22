@@ -311,7 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const form = document.getElementById('filter-form');
       const formData = new FormData(form);
 
-      fetch('<?php echo admin_url("admin-ajax.php"); ?>', {
+      fetch('<?php echo admin_url("admin-ajax.php"); ?>', { // on recup ajax
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
