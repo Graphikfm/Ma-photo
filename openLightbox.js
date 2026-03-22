@@ -1,3 +1,4 @@
+document.addEventListener('DOMContentLoaded', function () {
 let currentIndex = 0;
 
 document.addEventListener('click', function(e) {
@@ -51,4 +52,6 @@ document.querySelector('.lightbox-prev').addEventListener('click', () => {
   currentIndex = (currentIndex + 1) % allVignettes.length;
 
   openLightbox();
+});
+
 });
