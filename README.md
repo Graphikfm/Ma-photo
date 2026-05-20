@@ -196,7 +196,7 @@ maphoto/
 
 ---
 
-## 🛠️ Technologies utilisées
+## Technologies utilisées
 
 - WordPress
 - Astra Theme
@@ -206,7 +206,7 @@ maphoto/
 - Local WP
 - Git
 - GitHub
-
+- AJAX
 ---
 
 ## Captures
