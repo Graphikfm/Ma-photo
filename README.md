@@ -167,7 +167,7 @@ Une fois l'installation terminée :
 ```txt
 http://nathalie-mota.local
 ```
-## 🗄️ Configuration base de données Local
+## Configuration base de données Local
 
 | Paramètre | Valeur |
 |---|---|
@@ -177,7 +177,7 @@ http://nathalie-mota.local
 | User | `root` |
 | Password | `root` |
 
-> ⚠️ Le port peut varier selon la configuration Local.
+> Le port peut varier selon la configuration Local.
 ---
 
 ## Structure du thème
