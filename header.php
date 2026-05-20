@@ -16,7 +16,7 @@
     <nav class="main-nav" aria-label="Menu principal">
       
           <a class="brand" href="<?php echo esc_url(home_url('/')); ?>">
-      <img src="http://maphoto.local/wp-content/uploads/2026/01/Nathalie-Mota.png" alt="">
+      <img src="http://nathalie-mota.local/wp-content/uploads/2026/01/Nathalie-Mota.png" alt="">
     </a>
     <?php
 ?>
@@ -31,11 +31,11 @@
     </nav>
     
     <div class="mobile-header-container">
-      <a href="http://maphoto.local">
-        <img src="http://maphoto.local/wp-content/uploads/2026/01/Nathalie-Mota.png" alt="">
+      <a href="http://nathalie-mota.local">
+        <img src="http://nathalie-mota.local/wp-content/uploads/2026/01/Nathalie-Mota.png" alt="">
       </a>
       <div id="burger-btn">
-        <!-- <img  src="http://maphoto.local/wp-content/uploads/2026/03/Statedefault.png" alt=""> -->
+        <img  src="http://nathalie-mota.local/wp-content/uploads/2026/03/Statedefault.png" alt=""> -->
       </div>
     </div>
     <nav class="little-nav">
