@@ -111,6 +111,40 @@ WHERE option_name IN ('siteurl', 'home');
 
 ---
 
+## 🔌 Plugins nécessaires
+
+Même après l'import de la base de données, certains plugins doivent être installés manuellement car la base SQL ne contient pas les fichiers des extensions.
+
+### Plugins obligatoires
+
+#### Contact Form 7
+
+Installer le plugin :
+
+https://wordpress.org/plugins/contact-form-7/
+
+Le plugin est nécessaire au bon fonctionnement du formulaire de contact du projet.
+
+---
+
+## Important
+
+La base de données importe :
+
+- les réglages des plugins
+- les formulaires
+- les options WordPress
+
+Mais les fichiers des plugins doivent être présents dans :
+
+```txt
+wp-content/plugins/
+```
+
+Sinon certaines fonctionnalités du site peuvent provoquer des erreurs.
+
+---
+
 ## Important après import SQL
 
 Même après import de la base de données, le thème parent Astra doit être présent dans :
