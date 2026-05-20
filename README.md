@@ -1,6 +1,6 @@
 # Ma Photo
 
-Thème WordPress personnalisé développé pour une plateforme de photographie.
+Projet de développement d’un thème WordPress personnalisé pour une plateforme de photographie fictive, réalisé dans le cadre de ma formation de développeur WordPress.
 
 ---
 
